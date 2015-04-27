@@ -1,5 +1,8 @@
 *~
 *.pyc
+demo/.tox/
+demo/build/
+demo/dummy.egg-info/
 dist/
 env/
 tox_cmake.egg-info/
