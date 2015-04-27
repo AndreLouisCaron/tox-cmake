@@ -18,6 +18,7 @@ tools, it's only natural to want to use them all the time.
 
 Calling ``cmake`` directly from Tox's ``commands`` setting works, but it has a
 few quirks:
+
 * ``cmake`` has to be in ``PATH`` for thos to work, which makes requiring a
   specific CMake version kind of hard;
 * there can be only one ``cmake`` in ``PATH``, which makes it impossible to
@@ -43,6 +44,7 @@ The process is quite simple:
 #. Add ``tox-cmake`` to Tox's ``deps`` setting.
 #. Use Tox's ``changedir`` setting (for out-of-source CMake builds).
 #. Invoke ``tox-cmake`` in Tox's ``commands`` setting.
+#. Invoke ``tox-ctest`` in Tox's ``commands`` setting.
 
 Here's a full example::
 
@@ -52,7 +54,8 @@ Here's a full example::
    changedir = {toxinidir}/build/{envname}
    commands =
      tox-cmake ">=2.8,<3" ../..
-     tox-cmake ">=2.8,<3" --build --config Debug .
+     tox-cmake ">=2.8,<3" --build . --config Debug
+     tox-ctest ">=2.8,<3" --build-config Debug
 
 CMake version requirements
 --------------------------

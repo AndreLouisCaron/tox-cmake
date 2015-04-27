@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
-get_filename_component(
-  CMAKE_PATH
-  "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Kitware\\CMake 2.8.10.1]"
-  ABSOLUTE CACHE
-)
+# Build a simple C program.
+add_executable(hello "hello.c")
 
-message(STATUS "CMAKE_PATH: \"${CMAKE_PATH}\".")
+# Add simple test suite.
+enable_testing()
+add_test(test-hello "${CMAKE_CURRENT_BINARY_DIR}/hello")

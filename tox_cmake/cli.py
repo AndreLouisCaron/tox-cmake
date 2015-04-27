@@ -76,9 +76,7 @@ def select_version(pattern, versions):
     return None
 
 
-def main(arguments=None):
-    if arguments is None:
-        arguments = sys.argv[1:]
+def find_cmake(requirement):
     with winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE) as root:
         # Enumerate Kitware products to find installed CMake versions.
         versions = []
@@ -94,12 +92,12 @@ def main(arguments=None):
                     break
 
         # Select a version that matches the desired constraints.
-        version = select_version(arguments[0], versions)
+        version = select_version(requirement, versions)
         if not version:
             sys.stderr.write(
-                'No installed CMake version matches "%s".' % arguments[0]
+                'No installed CMake version matches "%s".' % requirement
             )
-            return 2
+            return None
 
         # Find the path to the selected version.
         try:
@@ -110,13 +108,28 @@ def main(arguments=None):
             if error.errno != 2:
                 raise
             sys.stderr.write('CMake "%s" not installed.' % version)
-            return 1
+            return None
 
-    # Call CMake.
+        # Return the path to the caller.
+        return cmake_path
+
+def cmake(arguments=None):
+    if arguments is None:
+        arguments = sys.argv[1:]
+    cmake_path = find_cmake(arguments[0])
+    if not cmake_path:
+        return 1
     return subprocess.call(
         [os.path.join(cmake_path, 'bin', 'cmake.exe')] + arguments[1:]
     )
 
 
-if __name__ == '__main__':
-    sys.exit(main())
+def ctest(arguments=None):
+    if arguments is None:
+        arguments = sys.argv[1:]
+    cmake_path = find_cmake(arguments[0])
+    if not cmake_path:
+        return 1
+    return subprocess.call(
+        [os.path.join(cmake_path, 'bin', 'ctest.exe')] + arguments[1:]
+    )

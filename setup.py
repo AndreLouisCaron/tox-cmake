@@ -35,7 +35,8 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'tox-cmake = tox_cmake.cli:main',
+            'tox-cmake = tox_cmake.cli:cmake',
+            'tox-ctest = tox_cmake.cli:ctest',
          ],
     },
 )
