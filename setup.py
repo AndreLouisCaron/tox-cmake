@@ -29,7 +29,7 @@ setup(
         'Topic :: Software Development :: Testing',
     ],
 
-    version='0.1',
+    version='0.2',
     platforms=['win32'],
 
     packages=find_packages(),
