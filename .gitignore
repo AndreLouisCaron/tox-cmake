@@ -1,0 +1,5 @@
+*~
+*.pyc
+dist/
+env/
+tox_cmake.egg-info/
